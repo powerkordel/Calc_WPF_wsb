@@ -20,97 +20,117 @@ namespace Kalkulator
     /// </summary>
     public partial class MainWindow : Window
     {
-        string output;
-        string zero = "0";
-
+        string zawartoscBtn;
+        double result = 0;
+        double first = 0;
+        double second = 0;
+        double czasowy = 0;
+        string funkcja = "";
 
 
         public MainWindow()
         {
             InitializeComponent();
-            Ekran.Text = zero;
+            Ekran.Text = czasowy.ToString();
         }
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            Ekran.Text = output;
-            output = (string)((Button)sender).Content;
-            Ekran.Text = Ekran.Text + output;
-
+            zawartoscBtn = (string)((Button)sender).Content;
+            czasowy = (double.Parse(Ekran.Text) * 10) + double.Parse(zawartoscBtn);
+            Ekran.Text = czasowy.ToString();
+            second = double.Parse(Ekran.Text);
         }
         
         private void btnClear_Click(object sender, RoutedEventArgs e)
         {
-            output = "";
-            Ekran.Text = output;
+            first = 0;
+            second = 0;
+            czasowy = 0;
+            result = 0;
+            funkcja = "";
+            Ekran.Text = "0";
         }
 
         private void btnPlus_Click(object sender, RoutedEventArgs e)
         {
-            Ekran.Text += "+";
+            first = double.Parse(Ekran.Text);
+            //second = 0;
+            //result += first;
+            funkcja = "+";
+            Ekran.Text = "0";//result.ToString();
+            
         }
 
         private void btnMinus_Click(object sender, RoutedEventArgs e)
         {
-            Ekran.Text += "-";
+            first = double.Parse(Ekran.Text);
+            
+            funkcja = "-";
+            Ekran.Text = "0";
         }
 
         private void btnRazy_Click(object sender, RoutedEventArgs e)
         {
-            Ekran.Text += "x";
+            first = double.Parse(Ekran.Text);
+            funkcja = "x";
+            Ekran.Text = "0";
         }
 
         private void btnDziel_Click(object sender, RoutedEventArgs e)
         {
-            Ekran.Text += "/";
+            first = double.Parse(Ekran.Text);
+            funkcja = "/";
+            Ekran.Text = "0";
         }
 
         private void btnRowna_Click(object sender, RoutedEventArgs e)
         {
-            var temp = Ekran.Text;
-
-            if (temp.Contains('+'))
+            if (funkcja == "+")
             {
-                var part = temp.Split('+');
-                var suma = double.Parse(part[0]) +  double.Parse(part[1]);
-                Ekran.Text = suma.ToString();
+                if (Ekran.Text == "0"|| first ==0)
+                {
+                    
+                    result += second;
+                    first = 0;
+                }
+                else
+                {
+                    second = double.Parse(Ekran.Text);
+                    result = first + second;
+                    //first = 0;
+                }
+                first = 0;
+                Ekran.Text = result.ToString();
+
             }
 
-            if (temp.Contains('-'))
+            if(funkcja == "-")
             {
-                var part = temp.Split('-');
-
-                var roznica = double.Parse(part[0]) - double.Parse(part[1]);
-                Ekran.Text = roznica.ToString();
+                result = first - second;
+                Ekran.Text = result.ToString();
             }
 
-            if (temp.Contains('x'))
+            if (funkcja == "x")
             {
-                var part = temp.Split('x');
-
-                var iloczyn = double.Parse(part[0]) * double.Parse(part[1]);
-                Ekran.Text = iloczyn.ToString();
+                result = first * second;
+                Ekran.Text = result.ToString();
             }
 
-            if (temp.Contains('/'))
+            if (funkcja == "/")
             {
-                var part = temp.Split('/');
-                double elemJeden = double.Parse(part[0]);
-                double elemDwa = double.Parse(part[1]);
-
-                if (elemDwa == 0)
+                if (Ekran.Text =="0")
                 {
                     Ekran.Text = "nie dziel przez zero";
                 }
                 else
-                
-                Ekran.Text = (elemJeden / elemDwa).ToString();
+                {
 
-                
-                    
+                    result = first / second;
+                    Ekran.Text = result.ToString();
+                }
             }
-
-            
         }
     }
 }
+
